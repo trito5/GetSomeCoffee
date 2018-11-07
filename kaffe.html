@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Moving images</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <style type="text/css">
+          
+
+            body {background-color: #DDD; margin:0px;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 12px; color: black;}
+
+            #gameContainer { background-color: white; width: 600px; height: 400px; margin-left: 100px; margin-top: 20px; 
+                            border:solid; border-width: 2px; border-color: black;}
+
+            #infobox    {width: 600px; margin-left: 100px; margin-top:20px; 
+                        font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 12px;}
+
+            #timer      {margin-left: 100px;}
+
+            #sum        {color: red;}
+
+            #java1 {position: relative; visibility: hidden;}
+
+            #startbutton {margin-top: 10px;}
+
+            #top {background-color: rgb(82, 179, 172); width: 100%; top:0px; left:0px; position: relative; margin:0px;}
+         
+
+            h1 {font-family: Verdana, Geneva, Tahoma, sans-serif; color: white; padding: 20px; padding-left: 40px;}
+
+            th {background-color: lightgray;}
+
+
+
+
+        </style>
+
+        <script type="text/javascript">
+        
+            var startTime, endTime;
+            var counter = 0;
+            var sum = 0;
+
+            function start() {
+                startTime = new Date();
+            };
+
+            function end() {
+                endTime = new Date();
+                var timeDiff = (endTime - startTime) / 1000; //in ms
+                document.getElementById("eachResult").innerHTML = "Counter " + counter + " - Time: " + timeDiff;
+                sum = sum + timeDiff;
+                
+            }
+
+            function moveImg()
+            {
+          
+                var java1 = document.getElementById("java1").style;
+                var randomx = Math.floor(Math.random() * 550) + 5;
+                var randomy = Math.floor(Math.random() * 320) + 5;   
+             
+                document.getElementById("startbutton").style.visibility="hidden";
+                
+                java1.top = randomy + "px";
+                java1.left = randomx + "px";
+                java1.visibility = "visible";
+                java1.display = "";
+                counter = counter + 1;
+
+                start();
+
+            }
+
+           
+
+            function startGame(){
+                counter = 0;
+                sum = 0;
+                document.getElementById("sum").innerHTML = " ";
+                document.getElementById("eachResult").innerHTML = " ";
+                moveImg();
+            }
+
+            function endGame() {
+                document.getElementById("sum").innerHTML = " - Sum: " + sum.toFixed(3);
+                document.getElementById("java1").style.visibility = "hidden";
+                document.getElementById("startbutton").style.visibility = "visible";
+            }
+ 
+
+            function startTimeout(){
+                //gömmer bilden
+                end();
+                if (counter >= 10) {
+                    endGame();
+                }
+                else {
+                    var java2 = document.getElementById("java1").style;
+                    java2.visibility = "hidden";
+                    java2.display = "none";
+                    var randomTime = Math.floor(Math.random() * 2000) + 500; 
+                
+                setTimeout(moveImg, randomTime);
+                }
+                
+            }
+        </script>
+    </head>
+    <body> 
+        <h1 id="top">Get some coffee</h1>
+       
+        <div id="infobox">How fast are your reactions? Press start and the Java logo will appear somehere in the white box. 
+            A timer will start as soon as the logo is visible. Click the logo as fast as you can. After a short random time 
+            it will appear again. The logo will appear 10 times in total. All your 10 reaction times will add up. Try go get
+            as low score as possible. Good luck!
+        
+            <form>
+                
+                 <input type="button" id="startbutton" value=" Start " onclick="startGame()">
+            </form>
+        
+            
+        </div>
+
+            <div id ="gameContainer">
+                <div id ="java1">
+                    <img id="image" src="java.png" width="30px" onclick="startTimeout()";>
+                </div>
+            </div>
+            <div id="timer"><span id ="eachResult"></span><span id ="sum"></span></div>
+  
+
+        
+
+    </body>
+</html>
